@@ -3,7 +3,7 @@ package com.capgemini.wsb.persistence.entity;
 import com.capgemini.wsb.persistence.enums.Specialization;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
 @Table(name = "DOCTOR")
@@ -33,15 +33,16 @@ public class DoctorEntity {
 
 	// Relations
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "DOCTOR_ID")
-	private List<VisitEntity> visitEntities;
+	// Relacja dwukierunkowa: Jeden doktor może mieć wiele wizyt
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Collection<VisitEntity> visits;
 
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	// Relacja dwukierunkowa: Wykorzystanie tabeli asocjacyjnej - wiele doktorów może mieć wiele adresów
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
 	@JoinTable(name = "DOCTOR_TO_ADDRESS",
 			joinColumns = @JoinColumn(name = "DOCTOR_ID"),
 			inverseJoinColumns = @JoinColumn(name = "ADDRESS_ID"))
-	private List<AddressEntity> addressEntities;
+	private Collection<AddressEntity> addresses;
 
 	// getters and setters
 
@@ -99,6 +100,22 @@ public class DoctorEntity {
 
 	public void setSpecialization(Specialization specialization) {
 		this.specialization = specialization;
+	}
+
+	public Collection<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(Collection<VisitEntity> visits) {
+		this.visits = visits;
+	}
+
+	public Collection<AddressEntity> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(Collection<AddressEntity> addresses) {
+		this.addresses = addresses;
 	}
 
 	public void findByDescription(String pDesc) {

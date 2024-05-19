@@ -19,7 +19,7 @@ public class PatientController {
 
     @GetMapping("/patient/{id}")
     PatientTO findById(@PathVariable final Long id) {
-        final PatientTO patient = patientService.findById(id);
+        final PatientTO patient = patientService.findPatientById(id);
         if(patient != null)
         {
             return patient;

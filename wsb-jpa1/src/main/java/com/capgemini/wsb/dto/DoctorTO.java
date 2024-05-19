@@ -74,4 +74,5 @@ public class DoctorTO implements Serializable {
     public void setSpecialization(Specialization specialization) {
         this.specialization = specialization;
     }
+
 }

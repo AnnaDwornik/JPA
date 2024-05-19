@@ -1,6 +1,7 @@
 package com.capgemini.wsb.persistence.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "ADDRESS")
@@ -20,6 +21,13 @@ public class AddressEntity {
 
 	@Column(nullable = false)
 	private String postalCode;
+
+	// Relations
+	@ManyToMany(mappedBy = "addresses")
+	private Collection<PatientEntity> patients;
+
+	@ManyToMany(mappedBy = "addresses")
+	private Collection<DoctorEntity> doctors;
 
 	// getters and setters
 
@@ -63,4 +71,19 @@ public class AddressEntity {
 		this.postalCode = postalCode;
 	}
 
+	public PatientEntity getPatients() {
+		return (PatientEntity) patients;
+	}
+
+	public void setPatients(PatientEntity patients) {
+		this.patients = (Collection<PatientEntity>) patients;
+	}
+
+	public DoctorEntity getDoctors() {
+		return (DoctorEntity) doctors;
+	}
+
+	public void setDoctors(DoctorEntity doctors) {
+		this.doctors = (Collection<DoctorEntity>) doctors;
+	}
 }

@@ -1,5 +1,8 @@
 package com.capgemini.wsb.persistence.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -19,13 +22,15 @@ public class VisitEntity {
 
 	// Relations
 
+	// Relacja dwukierunkowa: wiele wizyt może mieć jednego pacjenta
+	@ManyToOne(cascade = CascadeType.ALL)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private PatientEntity patient;
+
+	// Relacja dwukierunkowa: wiele wizyt może mieć jednego doktora
 	@ManyToOne
-	private PatientEntity patientEntity;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DOCTOR_ID")
-	private DoctorEntity doctorEntity;
-
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private DoctorEntity doctor;
 
 	// getters and setters
 
@@ -51,6 +56,22 @@ public class VisitEntity {
 
 	public void setTime(LocalDateTime time) {
 		this.time = time;
+	}
+
+	public PatientEntity getPatient() {
+		return patient;
+	}
+
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
+	}
+
+	public DoctorEntity getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(DoctorEntity doctor) {
+		this.doctor = doctor;
 	}
 
 }

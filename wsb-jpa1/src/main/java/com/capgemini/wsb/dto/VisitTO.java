@@ -11,6 +11,8 @@ public class VisitTO implements Serializable  {
 
     private LocalDateTime time;
 
+    private RelationsConnectorTO relationsConnector;
+
     public Long getId() {
         return id;
     }
@@ -33,5 +35,13 @@ public class VisitTO implements Serializable  {
 
     public void setTime(LocalDateTime time) {
         this.time = time;
+    }
+
+    public RelationsConnectorTO getRelationsConnector() {
+        return relationsConnector;
+    }
+
+    public void setRelationsConnector(RelationsConnectorTO relationsConnector) {
+        this.relationsConnector = relationsConnector;
     }
 }

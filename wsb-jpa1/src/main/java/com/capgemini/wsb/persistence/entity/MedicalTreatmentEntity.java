@@ -2,14 +2,8 @@ package com.capgemini.wsb.persistence.entity;
 
 import com.capgemini.wsb.persistence.enums.TreatmentType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Table(name = "MEDICAL_TREATMENT")
@@ -24,6 +18,13 @@ public class MedicalTreatmentEntity {
 
 	@Enumerated(EnumType.STRING)
 	private TreatmentType type;
+
+	// Relation
+
+	// Relacja jednokierunkowa: jedno leczenie może mieć wiele wizyt
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+	@JoinColumn(name = "MEDICAL_TREATMENT_ID")
+	private Collection<VisitEntity> visits;
 
 	// getters and setters
 
@@ -51,4 +52,11 @@ public class MedicalTreatmentEntity {
 		this.type = type;
 	}
 
+	public Collection<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(Collection<VisitEntity> visits) {
+		this.visits = visits;
+	}
 }

@@ -10,11 +10,11 @@ import java.util.List;
 public class DoctorDaoImpl extends AbstractDao<DoctorEntity, Long> implements DoctorDao {
 
     @Override
-    public List<DoctorEntity> findByDescription(String pDesc) {
-        return entityManager.createQuery("select doc from DoctorEntity doc " +
-                "join doc.visitEntities visits " +
-                "where visits.description like :param1", DoctorEntity.class)
-                .setParameter("param1", pDesc)
+    public List<DoctorEntity> findByVisitDescription(String pDesc) {
+        return entityManager.createQuery("select d from DoctorEntity d " +
+                "join d.visits visit " +
+                "where visit.description like :param1", DoctorEntity.class)
+                .setParameter("param1", "%"+pDesc+"%")
                 .getResultList();
     }
 }

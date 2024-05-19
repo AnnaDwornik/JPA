@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "PATIENT")
@@ -35,8 +36,16 @@ public class PatientEntity {
 
 	// Relations
 
-	@OneToMany(mappedBy = "patientEntity")
+	// Relacja dwukierunkowa: Jeden pacjent może mieć przyipsane wiele wizyt
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Collection<VisitEntity> visits;
+
+	// Relacja dwukierunkowa: Wykorzystanie tabeli asocjacyjnej - wiele pacjentów może mieć wiele adresów
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "PATIENT_TO_ADDRESS",
+			joinColumns = @JoinColumn(name = "patient_id"),
+			inverseJoinColumns = @JoinColumn(name = "address_id"))
+	private Collection<AddressEntity> addresses;
 
 	// getters and setters
 
@@ -102,5 +111,21 @@ public class PatientEntity {
 
 	public void setMedicalPackage(Boolean medicalPackage) {
 		this.medicalPackage = medicalPackage;
+	}
+
+	public Collection<VisitEntity> getVisits() {
+		return visits;
+	}
+
+	public void setVisits(Collection<VisitEntity> visits) {
+		this.visits = visits;
+	}
+
+	public Collection<AddressEntity> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(Collection<AddressEntity> addresses) {
+		this.addresses = addresses;
 	}
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface DoctorDao extends Dao<DoctorEntity, Long> {
 
-    List<DoctorEntity> findByDescription(final String pDesc);
+    List<DoctorEntity> findByVisitDescription(final String pDesc);
 }

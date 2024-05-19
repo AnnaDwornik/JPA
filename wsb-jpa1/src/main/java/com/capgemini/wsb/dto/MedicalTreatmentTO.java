@@ -10,7 +10,7 @@ public class MedicalTreatmentTO {
 
     private TreatmentType type;
 
-//    private VisitEntity visitEntity;?
+    private VisitEntity visit;
 
     // getters and setters
 
@@ -38,4 +38,11 @@ public class MedicalTreatmentTO {
         this.type = type;
     }
 
+    public VisitEntity getVisit() {
+        return visit;
+    }
+
+    public void setVisit(VisitEntity visit) {
+        this.visit = visit;
+    }
 }

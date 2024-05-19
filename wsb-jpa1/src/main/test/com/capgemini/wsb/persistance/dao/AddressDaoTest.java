@@ -26,17 +26,18 @@ public class AddressDaoTest
         AddressEntity addressEntity = addressDao.findOne(1L);
         // then
         assertThat(addressEntity).isNotNull();
-        assertThat(addressEntity.getPostalCode()).isEqualTo("62-030");
+        assertThat(addressEntity.getPostalCode()).isEqualTo("161397");
     }
 
+    @Transactional
     @Test
     public void testShouldSaveAddress() {
         // given
         AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setAddressLine1("line1");
-        addressEntity.setAddressLine2("line2");
-        addressEntity.setCity("City1");
-        addressEntity.setPostalCode("66-666");
+        addressEntity.setAddressLine1("Kamienna");
+        addressEntity.setAddressLine2("29");
+        addressEntity.setCity("Warszawa");
+        addressEntity.setPostalCode("58-160");
         long entitiesNumBefore = addressDao.count();
 
         // when
@@ -53,10 +54,10 @@ public class AddressDaoTest
     public void testShouldSaveAndRemoveAddress() {
         // given
         AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setAddressLine1("line1");
-        addressEntity.setAddressLine2("line2");
-        addressEntity.setCity("City1");
-        addressEntity.setPostalCode("66-666");
+        addressEntity.setAddressLine1("Kamienna");
+        addressEntity.setAddressLine2("29");
+        addressEntity.setCity("Warszawa");
+        addressEntity.setPostalCode("53-307");
 
         // when
         final AddressEntity saved = addressDao.save(addressEntity);
