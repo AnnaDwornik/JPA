@@ -23,13 +23,10 @@ public class PatientDaoTest {
     @Transactional
     @Test
     public void testFindByLastName() {
-        // Given
         String lastName = "Pate";
 
-        // When
         List<PatientEntity> patients = patientDao.findByLastName(lastName);
 
-        // Then
         assertNotNull(patients);
         assertEquals(1, patients.size());
 
@@ -41,11 +38,11 @@ public class PatientDaoTest {
     @Transactional
     @Test
     public void testFindPatientsWithMoreThanCountOfVisits() {
-        // Given
+
         long countOfVisits = 2;
-        // When
+
         List<PatientEntity> patients = patientDao.findPatientsWithMoreThanCountOfVisits(countOfVisits);
-        // Then
+
         assertNotNull(patients);
         assertEquals(1,patients.size());
     }
@@ -53,9 +50,9 @@ public class PatientDaoTest {
     @Transactional
     @Test
     public void testFindPatientsWithMedicalPackage() {
-        // When
+
         List<PatientEntity> patientsWithMedicalPackage = patientDao.findPatientsWithMedicalPackage();
-        // Then
+
         assertNotNull(patientsWithMedicalPackage);
         assertEquals(2,patientsWithMedicalPackage.size());
         assertTrue(patientsWithMedicalPackage.stream().allMatch(PatientEntity::getMedicalPackage));

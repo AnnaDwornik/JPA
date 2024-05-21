@@ -74,11 +74,14 @@ public class PatientServiceTest {
     }
     @Test
     public void testFindPatientById() {
+        // stworzenie i zapisanie pacjenta
         PatientEntity patient = createNewPatient();
         patientDao.save(patient);
 
+        // wyszukanie pacjenta po id
         PatientTO patientTO = patientService.findPatientById(patient.getId());
 
+        // weryfikacja danych pacjenta
         assertNotNull(patientTO);
 
         assertEquals(patient.getId(), patientTO.getId());
@@ -92,25 +95,33 @@ public class PatientServiceTest {
     }
 
     @Test
-    public void testDeletePatient() {
+    public void testCascadeDeletePatient() {
+        // stworzenie i zapisanie pacjenta
         PatientEntity patient = createNewPatient();
         patientDao.save(patient);
 
+        // stworzenie i zapisanie wizyty
         VisitEntity visit = createNewVisit();
         visit.setPatient(patient);
         entityManager.persist(visit);
 
+        // usunięcie pacjenta
         patientService.deletePatient(patient.getId());
         PatientTO patientTO = patientService.findPatientById(patient.getId());
+
+        //weryfikacja - czy pacjent istnieje
         assertNull(patientTO);
 
-        List<VisitEntity> visits = entityManager.createQuery("SELECT visits FROM VisitEntity visits" +
-                " WHERE visits.patient.id = :patientId", VisitEntity.class)
+        // pobranie listy wizyt dla wcześniej stworzonego pacjenta
+        List<VisitEntity> visits = entityManager.createQuery("SELECT v FROM VisitEntity v" +
+                " WHERE v.patient.id = :patientId", VisitEntity.class)
                 .setParameter("patientId", patient.getId())
                 .getResultList();
 
+        // weryfikacja - czy lista jest pusta
         assertTrue(visits.isEmpty());
 
+        // weryfikacja - czy doktor dalej istnieje
         DoctorEntity doctorExist = entityManager.find(DoctorEntity.class, visit.getDoctor().getId());
         assertNotNull(doctorExist);
     }

@@ -21,7 +21,7 @@ public class MedicalTreatmentEntity {
 
 	// Relation
 
-	// Relacja jednokierunkowa: jedno leczenie może mieć wiele wizyt
+	// Relacja jednokierunkowa: wiele wizyt może mieć jedno leczenie
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
 	@JoinColumn(name = "MEDICAL_TREATMENT_ID")
 	private Collection<VisitEntity> visits;
